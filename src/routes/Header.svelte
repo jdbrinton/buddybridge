@@ -1,6 +1,12 @@
 <script>
 	import { page } from '$app/state';
+	import { browser } from '$app/environment';
 	import github from '$lib/images/github.svg';
+
+	let BASE_URL = '/';
+	if (browser && typeof window !== 'undefined' && window.BASE_URL) {
+		BASE_URL = window.BASE_URL;
+	}
 </script>
 
 <header>
@@ -15,14 +21,14 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li aria-current={page.url.pathname.endsWith('/') ? 'page' : undefined}>
-				<a href="/">Home</a>
+			<li aria-current={page.url.pathname === BASE_URL ? 'page' : undefined}>
+				<a href={BASE_URL}>Home</a>
 			</li>
 			<li aria-current={page.url.pathname.endsWith('/instructions') ? 'page' : undefined}>
-				<a href="instructions">Instructions</a>
+				<a href={`${BASE_URL}instructions`}>Instructions</a>
 			</li>
 			<li aria-current={page.url.pathname.endsWith('/bridge') ? 'page' : undefined}>
-				<a href="bridge">Begin!</a>
+				<a href={`${BASE_URL}bridge`}>Begin!</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
