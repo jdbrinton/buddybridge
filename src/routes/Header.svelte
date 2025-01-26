@@ -15,14 +15,14 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li aria-current={page.url.pathname === '/' ? 'page' : undefined}>
+			<li aria-current={page.url.pathname.endsWith('/') ? 'page' : undefined}>
 				<a href="/">Home</a>
 			</li>
-			<li aria-current={page.url.pathname === '/instructions' ? 'page' : undefined}>
-				<a href="/instructions">Instructions</a>
+			<li aria-current={page.url.pathname.endsWith('/instructions') ? 'page' : undefined}>
+				<a href="instructions">Instructions</a>
 			</li>
-			<li aria-current={page.url.pathname === '/bridge' ? 'page' : undefined}>
-				<a href="/bridge">Begin!</a>
+			<li aria-current={page.url.pathname.endsWith('/bridge') ? 'page' : undefined}>
+				<a href="bridge">Begin!</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">

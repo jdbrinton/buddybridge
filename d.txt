@@ -57,10 +57,6 @@
 		padding: 12px;
 	}
 
-	footer a {
-		font-weight: bold;
-	}
-
 	@media (min-width: 480px) {
 		footer {
 			padding: 12px 0;
@@ -96,8 +92,12 @@ export const prerender = true;
 		</span>
 		Find your friends on other social media platforms!
 	</h1>
-	<button onclick={() => (window.location.href = '/bridge')}>Begin!</button>
-
+	<button
+		class="transform rounded-lg bg-blue-500 px-4 py-2 font-bold text-white shadow-lg transition-transform duration-300 hover:scale-105 hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+		onclick={() => (window.location.href = '/bridge')}
+	>
+		Begin!
+	</button>
 </section>
 
 <style>
@@ -237,7 +237,7 @@ export const prerender = true;
 			<li aria-current={page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">Home</a>
 			</li>
-			<li aria-current={page.url.pathname === '/Instructions' ? 'page' : undefined}>
+			<li aria-current={page.url.pathname === '/instructions' ? 'page' : undefined}>
 				<a href="/instructions">Instructions</a>
 			</li>
 			<li aria-current={page.url.pathname === '/bridge' ? 'page' : undefined}>
@@ -345,6 +345,19 @@ export const prerender = true;
 		color: var(--color-theme-1);
 	}
 </style>
+
+```
+`src/routes/instructions/+page.js`:
+```
+import { dev } from '$app/environment';
+
+// we don't need any JS on this page, though we'll load
+// it in dev so that we get hot module replacement
+export const csr = dev;
+
+// since there's no dynamic data here, we can prerender
+// it so that it gets served as a static asset in production
+export const prerender = true;
 
 ```
 `src/routes/instructions/+page.svelte`:
@@ -598,5 +611,15 @@ import { defineConfig } from 'vite';
 export default defineConfig({
 	plugins: [sveltekit()]
 });
+
+```
+`postcss.config.js`:
+```
+export default {
+	plugins: {
+		tailwindcss: {},
+		autoprefixer: {}
+	}
+};
 
 ```
