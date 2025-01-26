@@ -1,13 +1,35 @@
 <script>
-	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import github from '$lib/images/github.svg';
 
 	let BASE_URL = '/';
-	if (browser && typeof window !== 'undefined' && window.BASE_URL) {
+	if (browser && typeof window !== 'undefined' && typeof window.BASE_URL === 'string') {
 		BASE_URL = window.BASE_URL;
 	}
+
+	/**
+	 * Navigate to a specified path.
+	 * @param {string} path - The path to navigate to.
+	 */
+	function navigate(path) {
+		goto(`${BASE_URL}${path}`);
+	}
+
+	/**
+	 * Handle key events for navigation.
+	 * @param {KeyboardEvent} event - The keyboard event.
+	 * @param {string} path - The path to navigate to.
+	 */
+	function handleKey(event, path) {
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+			navigate(path);
+		}
+	}
 </script>
+
 
 <header>
 	<div class="corner">
@@ -21,14 +43,14 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li aria-current={page.url.pathname === BASE_URL ? 'page' : undefined}>
-				<a href={BASE_URL}>Home</a>
+			<li aria-current={$page.url.pathname === BASE_URL ? 'page' : undefined}>
+				<a href="." on:click={(e) => { e.preventDefault(); navigate(''); }} on:keydown={(e) => handleKey(e, '')}>Home</a>
 			</li>
-			<li aria-current={page.url.pathname.endsWith('/instructions') ? 'page' : undefined}>
-				<a href={`${BASE_URL}instructions`}>Instructions</a>
+			<li aria-current={$page.url.pathname.endsWith('/instructions') ? 'page' : undefined}>
+				<a href="." on:click={(e) => { e.preventDefault(); navigate('instructions'); }} on:keydown={(e) => handleKey(e, 'instructions')}>Instructions</a>
 			</li>
-			<li aria-current={page.url.pathname.endsWith('/bridge') ? 'page' : undefined}>
-				<a href={`${BASE_URL}bridge`}>Begin!</a>
+			<li aria-current={$page.url.pathname.endsWith('/bridge') ? 'page' : undefined}>
+				<a href="." on:click={(e) => { e.preventDefault(); navigate('bridge'); }} on:keydown={(e) => handleKey(e, 'bridge')}>Begin!</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">

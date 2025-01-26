@@ -1,3 +1,40 @@
+`jsconfig.json`:
+```
+{
+	"extends": "./.svelte-kit/tsconfig.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+		  "$app/*": ["node_modules/@sveltejs/kit"],
+		  "$lib/*": ["src/lib/*"]
+		},
+		"allowJs": true,
+		"checkJs": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"strict": true,
+		"moduleResolution": "bundler",
+		"typeRoots": ["./types", "./node_modules/@types"]
+	},
+	"include": ["src", "types"]
+}
+
+```
+`types/global.d.ts`:
+```
+// types/global.d.ts
+declare global {
+	interface Window {
+		BASE_URL: string;
+	}
+}
+
+export {};
+
+```
 `src/routes/+layout.svelte`:
 ```
 <script>
@@ -219,8 +256,15 @@ export const prerender = true;
 ```
 <script>
 	import { page } from '$app/state';
+	import { browser } from '$app/environment';
 	import github from '$lib/images/github.svg';
+
+	let BASE_URL = '/';
+	if (browser && typeof window !== 'undefined' && typeof window.BASE_URL === 'string') {
+		BASE_URL = window.BASE_URL;
+	}
 </script>
+
 
 <header>
 	<div class="corner">
@@ -234,14 +278,14 @@ export const prerender = true;
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li aria-current={page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">Home</a>
+			<li aria-current={page.url.pathname === BASE_URL ? 'page' : undefined}>
+				<a href={BASE_URL}>Home</a>
 			</li>
-			<li aria-current={page.url.pathname === '/instructions' ? 'page' : undefined}>
-				<a href="/instructions">Instructions</a>
+			<li aria-current={page.url.pathname.endsWith('/instructions') ? 'page' : undefined}>
+				<a href={`${BASE_URL}instructions`}>Instructions</a>
 			</li>
-			<li aria-current={page.url.pathname === '/bridge' ? 'page' : undefined}>
-				<a href="/bridge">Begin!</a>
+			<li aria-current={page.url.pathname.endsWith('/bridge') ? 'page' : undefined}>
+				<a href={`${BASE_URL}bridge`}>Begin!</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
@@ -479,23 +523,6 @@ button:focus:not(:focus-visible) {
 }
 
 ```
-`src/app.d.ts`:
-```
-// See https://svelte.dev/docs/kit/types#app.d.ts
-// for information about these interfaces
-declare global {
-	namespace App {
-		// interface Error {}
-		// interface Locals {}
-		// interface PageData {}
-		// interface PageState {}
-		// interface Platform {}
-	}
-}
-
-export {};
-
-```
 `src/app.html`:
 ```
 <!doctype html>
@@ -504,6 +531,14 @@ export {};
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script>
+			const pathParts = location.pathname.split('/');
+			const isFile = pathParts[pathParts.length - 1].includes('.');
+			const basePath = isFile
+				? pathParts.slice(0, -1).join('/') // Remove trailing file like index.html
+				: location.pathname; // Use full pathname if no file is present
+			window.BASE_URL = basePath.endsWith('/') ? basePath : basePath + '/';
+		</script>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">
