@@ -36,3 +36,23 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+
+
+## Favicon
+
+https://favicon.io/favicon-generator/
+
+This favicon was generated using the following font:
+
+- Font Title: Wendy One
+- Font Author: undefined
+- Font Source: https://fonts.gstatic.com/s/wendyone/v18/2sDcZGJOipXfgfXV5wgDb2-4C7wFZQ.ttf
+- Font License: undefined)
+- Text: BB
+- Font Color: #FFFFFF
+- Background Color: #0D0
+- Background: Rounded
+- Font Family: Wendy One
+- Font Variant: Regular 400 Normal
+- Font Size: 90
+

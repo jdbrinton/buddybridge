@@ -1,7 +1,5 @@
 <script>
 	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcomeFallback from '$lib/images/svelte-welcome.png';
 </script>
 
 <svelte:head>
@@ -13,8 +11,8 @@
 	<h1>
 		<span class="welcome">
 			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcomeFallback} alt="Welcome" />
+				<source srcset="/buddybridge_logo.png" type="image/webp" />
+				<img src="/buddybridge_logo.png" alt="Welcome" />
 			</picture>
 		</span>
 

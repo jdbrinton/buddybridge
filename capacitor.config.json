@@ -1,0 +1,6 @@
+{
+  "appId": "com.jdbrinton.buddybridge",
+  "appName": "buddybridge",
+  "webDir": "docs",
+  "bundledWebRuntime": false
+}

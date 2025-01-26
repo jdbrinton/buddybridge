@@ -1,18 +1,32 @@
-node_modules
+# Node dependencies
+node_modules/
 
-# Output
+# SvelteKit build outputs
 .output
+.svelte-kit/
+.build
 .vercel
 .netlify
 .wrangler
-/.svelte-kit
-/build
 
-# OS
+# GitHub Pages (commit docs)
+!docs/
+
+# Capacitor
+android/
+ios/
+build/
+
+# Electron
+dist/
+out/
+*.asar
+
+# OS files
 .DS_Store
 Thumbs.db
 
-# Env
+# Environment files
 .env
 .env.*
 !.env.example
@@ -21,3 +35,15 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Logs and temp files
+logs/
+*.log
+npm-debug.log*
+*.tmp
+*.swp
+
+# IDE files
+.vscode/
+.idea/
+*.iml
