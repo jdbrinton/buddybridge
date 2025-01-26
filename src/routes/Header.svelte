@@ -1,13 +1,12 @@
 <script>
 	import { page } from '$app/state';
-	import logo from '$lib/images/svelte-logo.svg';
 	import github from '$lib/images/github.svg';
 </script>
 
 <header>
 	<div class="corner">
-		<a href="https://svelte.dev/docs/kit">
-			<img src={logo} alt="SvelteKit" />
+		<a href="https://www.linkedin.com/in/joeldbrinton/" target="_blank">
+			<img src="LI-In-Bug.png" alt="JD Brinton" />
 		</a>
 	</div>
 
@@ -19,8 +18,11 @@
 			<li aria-current={page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">Home</a>
 			</li>
-			<li aria-current={page.url.pathname === '/about' ? 'page' : undefined}>
-				<a href="/about">About</a>
+			<li aria-current={page.url.pathname === '/Instructions' ? 'page' : undefined}>
+				<a href="/instructions">Instructions</a>
+			</li>
+			<li aria-current={page.url.pathname === '/bridge' ? 'page' : undefined}>
+				<a href="/bridge">Begin!</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
@@ -29,7 +31,7 @@
 	</nav>
 
 	<div class="corner">
-		<a href="https://github.com/sveltejs/kit">
+		<a href="https://github.com/jdbrinton/buddybridge" target="_blank">
 			<img src={github} alt="GitHub" />
 		</a>
 	</div>

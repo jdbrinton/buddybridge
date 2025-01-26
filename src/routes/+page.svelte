@@ -1,10 +1,9 @@
 <script>
-	import Counter from './Counter.svelte';
 </script>
 
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+	<title>BuddyBridge</title>
+	<meta name="Find your friends on other social media platforms!" content="buddybridge" />
 </svelte:head>
 
 <section>
@@ -15,15 +14,14 @@
 				<img src="buddybridge_logo.png" alt="Welcome" />
 			</picture>
 		</span>
-
-		to your new<br />SvelteKit app
+		Find your friends on other social media platforms!
 	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
+	<button
+		class="transform rounded-lg bg-blue-500 px-4 py-2 font-bold text-white shadow-lg transition-transform duration-300 hover:scale-105 hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+		onclick={() => (window.location.href = '/bridge')}
+	>
+		Begin!
+	</button>
 </section>
 
 <style>

@@ -14,8 +14,17 @@
 	</main>
 
 	<footer>
+		<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+		<script>
+		  kofiWidgetOverlay.draw('jdbrinton', {
+			'type': 'floating-chat',
+			'floating-chat.donateButton.text': 'Donate',
+			'floating-chat.donateButton.background-color': '#00b9fe',
+			'floating-chat.donateButton.text-color': '#fff'
+		  });
+		</script>
 		<p>
-			visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to learn about SvelteKit
+			I developed this app on donations. Please consider donating to support my work. Thank you!
 		</p>
 	</footer>
 </div>

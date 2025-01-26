@@ -1,0 +1,602 @@
+`src/routes/+layout.svelte`:
+```
+<script>
+	import Header from './Header.svelte';
+	import '../app.css';
+
+	/** @type {{children: import('svelte').Snippet}} */
+	let { children } = $props();
+</script>
+
+<div class="app">
+	<Header />
+
+	<main>
+		{@render children()}
+	</main>
+
+	<footer>
+		<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+		<script>
+		  kofiWidgetOverlay.draw('jdbrinton', {
+			'type': 'floating-chat',
+			'floating-chat.donateButton.text': 'Donate',
+			'floating-chat.donateButton.background-color': '#00b9fe',
+			'floating-chat.donateButton.text-color': '#fff'
+		  });
+		</script>
+		<p>
+			I developed this app on donations. Please consider donating to support my work. Thank you!
+		</p>
+	</footer>
+</div>
+
+<style>
+	.app {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	}
+
+	main {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		padding: 1rem;
+		width: 100%;
+		max-width: 64rem;
+		margin: 0 auto;
+		box-sizing: border-box;
+	}
+
+	footer {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 12px;
+	}
+
+	footer a {
+		font-weight: bold;
+	}
+
+	@media (min-width: 480px) {
+		footer {
+			padding: 12px 0;
+		}
+	}
+</style>
+
+```
+`src/routes/+page.js`:
+```
+// since there's no dynamic data here, we can prerender
+// it so that it gets served as a static asset in production
+export const prerender = true;
+
+```
+`src/routes/+page.svelte`:
+```
+<script>
+</script>
+
+<svelte:head>
+	<title>BuddyBridge</title>
+	<meta name="Find your friends on other social media platforms!" content="buddybridge" />
+</svelte:head>
+
+<section>
+	<h1>
+		<span class="welcome">
+			<picture>
+				<source srcset="buddybridge_logo.png" type="image/webp" />
+				<img src="buddybridge_logo.png" alt="Welcome" />
+			</picture>
+		</span>
+		Find your friends on other social media platforms!
+	</h1>
+	<button onclick={() => (window.location.href = '/bridge')}>Begin!</button>
+
+</section>
+
+<style>
+	section {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		flex: 0.6;
+	}
+
+	h1 {
+		width: 100%;
+	}
+
+	.welcome {
+		display: block;
+		position: relative;
+		width: 100%;
+		height: 0;
+		padding: 0 0 calc(100% * 495 / 2048) 0;
+	}
+
+	.welcome img {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		display: block;
+	}
+</style>
+
+```
+`src/routes/bridge/+page.js`:
+```
+import { dev } from '$app/environment';
+
+// we don't need any JS on this page, though we'll load
+// it in dev so that we get hot module replacement
+export const csr = dev;
+
+// since there's no dynamic data here, we can prerender
+// it so that it gets served as a static asset in production
+export const prerender = true;
+
+```
+`src/routes/bridge/+page.svelte`:
+```
+<script>
+	import { onMount } from 'svelte';
+	import { Capacitor } from '@capacitor/core';
+	import { Browser } from '@capacitor/browser';
+
+	let platformResult = 'Detecting platform...';
+	let scrapingCapability = 'Checking scraping capability...';
+
+	onMount(async () => {
+		// Detect Platform
+		const platform = Capacitor.getPlatform();
+
+		if (platform === 'web') {
+			platformResult = 'Running on the Web (Browser or PWA).';
+			scrapingCapability = 'WebView scraping may have restrictions due to CORS.';
+		} else if (platform === 'ios' || platform === 'android') {
+			platformResult = `Running on native ${platform} WebView.`;
+
+			// Check WebView access and scraping capability
+			try {
+				await Browser.open({ url: 'https://example.com' });
+				scrapingCapability = 'WebView access confirmed. Scraping should be possible.';
+			} catch (error) {
+				scrapingCapability = 'WebView access restricted.';
+			}
+		} else if (platform === 'electron') {
+			platformResult = 'Running on Electron.';
+			scrapingCapability = 'Unrestricted Chromium access. Scraping is fully supported.';
+		} else {
+			platformResult = 'Unknown platform.';
+			scrapingCapability = 'Scraping capability could not be determined.';
+		}
+	});
+</script>
+
+<svelte:head>
+	<title>Platform Check</title>
+	<meta name="description" content="Platform and scraping capability check" />
+</svelte:head>
+
+<div class="text-column">
+	<h1>Platform and Scraping Capability Check</h1>
+
+	<p><strong>Platform:</strong> {platformResult}</p>
+	<p><strong>Scraping Capability:</strong> {scrapingCapability}</p>
+
+	<p>
+		This page dynamically detects whether you're running on a browser, a native WebView, or an
+		Electron environment, and evaluates whether scraping capabilities are available.
+	</p>
+</div>
+
+<style>
+	.text-column {
+		padding: 1em;
+		max-width: 600px;
+		margin: 0 auto;
+		font-family: Arial, sans-serif;
+	}
+	h1 {
+		color: #333;
+	}
+	p {
+		line-height: 1.6;
+		color: #555;
+	}
+</style>
+
+```
+`src/routes/Header.svelte`:
+```
+<script>
+	import { page } from '$app/state';
+	import github from '$lib/images/github.svg';
+</script>
+
+<header>
+	<div class="corner">
+		<a href="https://www.linkedin.com/in/joeldbrinton/" target="_blank">
+			<img src="LI-In-Bug.png" alt="JD Brinton" />
+		</a>
+	</div>
+
+	<nav>
+		<svg viewBox="0 0 2 3" aria-hidden="true">
+			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
+		</svg>
+		<ul>
+			<li aria-current={page.url.pathname === '/' ? 'page' : undefined}>
+				<a href="/">Home</a>
+			</li>
+			<li aria-current={page.url.pathname === '/Instructions' ? 'page' : undefined}>
+				<a href="/instructions">Instructions</a>
+			</li>
+			<li aria-current={page.url.pathname === '/bridge' ? 'page' : undefined}>
+				<a href="/bridge">Begin!</a>
+			</li>
+		</ul>
+		<svg viewBox="0 0 2 3" aria-hidden="true">
+			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
+		</svg>
+	</nav>
+
+	<div class="corner">
+		<a href="https://github.com/jdbrinton/buddybridge" target="_blank">
+			<img src={github} alt="GitHub" />
+		</a>
+	</div>
+</header>
+
+<style>
+	header {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.corner {
+		width: 3em;
+		height: 3em;
+	}
+
+	.corner a {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+	}
+
+	.corner img {
+		width: 2em;
+		height: 2em;
+		object-fit: contain;
+	}
+
+	nav {
+		display: flex;
+		justify-content: center;
+		--background: rgba(255, 255, 255, 0.7);
+	}
+
+	svg {
+		width: 2em;
+		height: 3em;
+		display: block;
+	}
+
+	path {
+		fill: var(--background);
+	}
+
+	ul {
+		position: relative;
+		padding: 0;
+		margin: 0;
+		height: 3em;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		list-style: none;
+		background: var(--background);
+		background-size: contain;
+	}
+
+	li {
+		position: relative;
+		height: 100%;
+	}
+
+	li[aria-current='page']::before {
+		--size: 6px;
+		content: '';
+		width: 0;
+		height: 0;
+		position: absolute;
+		top: 0;
+		left: calc(50% - var(--size));
+		border: var(--size) solid transparent;
+		border-top: var(--size) solid var(--color-theme-1);
+	}
+
+	nav a {
+		display: flex;
+		height: 100%;
+		align-items: center;
+		padding: 0 0.5rem;
+		color: var(--color-text);
+		font-weight: 700;
+		font-size: 0.8rem;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		text-decoration: none;
+		transition: color 0.2s linear;
+	}
+
+	a:hover {
+		color: var(--color-theme-1);
+	}
+</style>
+
+```
+`src/routes/instructions/+page.svelte`:
+```
+<h1>Instructions</h1>
+
+```
+`src/app.css`:
+```
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import '@fontsource/fira-mono';
+
+:root {
+	--font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+		Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	--font-mono: 'Fira Mono', monospace;
+	--color-bg-0: rgb(202, 216, 228);
+	--color-bg-1: hsl(209, 36%, 86%);
+	--color-bg-2: hsl(224, 44%, 95%);
+	--color-theme-1: #ff3e00;
+	--color-theme-2: #4075a6;
+	--color-text: rgba(0, 0, 0, 0.7);
+	--column-width: 42rem;
+	--column-margin-top: 4rem;
+	font-family: var(--font-body);
+	color: var(--color-text);
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+	background-attachment: fixed;
+	background-color: var(--color-bg-1);
+	background-size: 100vw 100vh;
+	background-image: radial-gradient(
+			50% 50% at 50% 50%,
+			rgba(255, 255, 255, 0.75) 0%,
+			rgba(255, 255, 255, 0) 100%
+		),
+		linear-gradient(180deg, var(--color-bg-0) 0%, var(--color-bg-1) 15%, var(--color-bg-2) 50%);
+}
+
+h1,
+h2,
+p {
+	font-weight: 400;
+}
+
+p {
+	line-height: 1.5;
+}
+
+a {
+	color: var(--color-theme-1);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+h1 {
+	font-size: 2rem;
+	text-align: center;
+}
+
+h2 {
+	font-size: 1rem;
+}
+
+pre {
+	font-size: 16px;
+	font-family: var(--font-mono);
+	background-color: rgba(255, 255, 255, 0.45);
+	border-radius: 3px;
+	box-shadow: 2px 2px 6px rgb(255 255 255 / 25%);
+	padding: 0.5em;
+	overflow-x: auto;
+	color: var(--color-text);
+}
+
+.text-column {
+	display: flex;
+	max-width: 48rem;
+	flex: 0.6;
+	flex-direction: column;
+	justify-content: center;
+	margin: 0 auto;
+}
+
+input,
+button {
+	font-size: inherit;
+	font-family: inherit;
+}
+
+button:focus:not(:focus-visible) {
+	outline: none;
+}
+
+@media (min-width: 720px) {
+	h1 {
+		font-size: 2.4rem;
+	}
+}
+
+.visually-hidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: auto;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	white-space: nowrap;
+}
+
+```
+`src/app.d.ts`:
+```
+// See https://svelte.dev/docs/kit/types#app.d.ts
+// for information about these interfaces
+declare global {
+	namespace App {
+		// interface Error {}
+		// interface Locals {}
+		// interface PageData {}
+		// interface PageState {}
+		// interface Platform {}
+	}
+}
+
+export {};
+
+```
+`src/app.html`:
+```
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
+
+```
+`package.json`:
+```
+{
+	"name": "buddybridge",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
+		"format": "prettier --write .",
+		"lint": "prettier --check ."
+	},
+	"devDependencies": {
+		"@capacitor/cli": "^7.0.1",
+		"@fontsource/fira-mono": "^5.0.0",
+		"@neoconfetti/svelte": "^2.0.0",
+		"@sveltejs/adapter-auto": "^4.0.0",
+		"@sveltejs/kit": "^2.16.0",
+		"@sveltejs/vite-plugin-svelte": "^5.0.0",
+		"@tailwindcss/forms": "^0.5.10",
+		"@tailwindcss/typography": "^0.5.16",
+		"autoprefixer": "^10.4.20",
+		"electron": "^34.0.1",
+		"prettier": "^3.4.2",
+		"prettier-plugin-svelte": "^3.3.3",
+		"prettier-plugin-tailwindcss": "^0.6.10",
+		"svelte": "^5.0.0",
+		"svelte-check": "^4.0.0",
+		"tailwindcss": "^3.4.17",
+		"typescript": "^5.0.0",
+		"vite": "^6.0.0"
+	},
+	"dependencies": {
+		"@capacitor-community/electron": "^5.0.1",
+		"@capacitor/android": "^7.0.1",
+		"@capacitor/browser": "^7.0.0",
+		"@capacitor/core": "^7.0.1",
+		"@capacitor/ios": "^7.0.1",
+		"@sveltejs/adapter-static": "^3.0.8"
+	}
+}
+
+```
+`svelte.config.js`:
+```
+import adapter from '@sveltejs/adapter-static';
+
+export default {
+	kit: {
+	  // Specify the static adapter
+	  adapter: adapter({
+		pages: 'docs',
+		assets: 'docs',
+		fallback: null,
+	  }),
+  
+	  // Optional: Add paths or fallback options if needed
+	  paths: {
+		// Change base path if deploying to a subdirectory
+		base: '',
+	  },
+	  prerender: {
+		entries: ['*'], // Prerender all routes by default
+	  },
+	},
+  };
+
+
+```
+`tailwind.config.js`:
+```
+import forms from '@tailwindcss/forms';
+import typography from '@tailwindcss/typography';
+
+/** @type {import('tailwindcss').Config} */
+export default {
+	content: ['./src/**/*.{html,js,svelte,ts}'],
+
+	theme: {
+		extend: {}
+	},
+
+	plugins: [typography, forms]
+};
+
+```
+`vite.config.js`:
+```
+import { sveltekit } from '@sveltejs/kit/vite';
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+	plugins: [sveltekit()]
+});
+
+```

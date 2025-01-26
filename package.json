@@ -23,6 +23,7 @@
 		"@tailwindcss/forms": "^0.5.10",
 		"@tailwindcss/typography": "^0.5.16",
 		"autoprefixer": "^10.4.20",
+		"electron": "^34.0.1",
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.3",
 		"prettier-plugin-tailwindcss": "^0.6.10",
@@ -35,6 +36,7 @@
 	"dependencies": {
 		"@capacitor-community/electron": "^5.0.1",
 		"@capacitor/android": "^7.0.1",
+		"@capacitor/browser": "^7.0.0",
 		"@capacitor/core": "^7.0.1",
 		"@capacitor/ios": "^7.0.1",
 		"@sveltejs/adapter-static": "^3.0.8"
