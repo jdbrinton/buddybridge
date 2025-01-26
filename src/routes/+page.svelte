@@ -1,5 +1,11 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { browser } from '$app/environment';
+
+	let BASE_URL = '/';
+	if (browser && typeof window !== 'undefined' && typeof window.BASE_URL === 'string') {
+		BASE_URL = window.BASE_URL;
+	}
 </script>
 
 <svelte:head>
@@ -19,7 +25,7 @@
 	</h1>
 	<button
 		class="transform rounded-lg bg-blue-500 px-4 py-2 font-bold text-white shadow-lg transition-transform duration-300 hover:scale-105 hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
-		onclick={() => goto('/bridge')}
+		onclick={() => goto(`${BASE_URL}bridge`)}
 	>
 		Begin!
 	</button>
