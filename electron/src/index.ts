@@ -1,7 +1,7 @@
 import type { CapacitorElectronConfig } from '@capacitor-community/electron';
 import { getCapacitorElectronConfig, setupElectronDeepLinking } from '@capacitor-community/electron';
 import type { MenuItemConstructorOptions } from 'electron';
-import { app, MenuItem } from 'electron';
+import { app, Menu, MenuItem, shell } from 'electron';
 import electronIsDev from 'electron-is-dev';
 import unhandled from 'electron-unhandled';
 import { autoUpdater } from 'electron-updater';
@@ -25,6 +25,23 @@ const capacitorFileConfig: CapacitorElectronConfig = getCapacitorElectronConfig(
 // const myCapacitorApp = new ElectronCapacitorApp(capacitorFileConfig);
 const myCapacitorApp = new ElectronCapacitorApp(capacitorFileConfig, trayMenuTemplate, appMenuBarMenuTemplate);
 
+app.whenReady().then(async () => {
+  await myCapacitorApp.init();
+
+  const mainWindow = myCapacitorApp.getMainWindow();
+
+  // Intercept external links and open in default browser
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    if (url.startsWith('http')) {
+      shell.openExternal(url);
+      return { action: 'deny' };
+    }
+    return { action: 'allow' };
+  });
+
+  Menu.setApplicationMenu(null); // Optional: Remove menu bar
+});
+
 // If deeplinking is enabled then we will set it up here.
 if (capacitorFileConfig.electron?.deepLinkingEnabled) {
   setupElectronDeepLinking(myCapacitorApp, {
@@ -45,6 +62,8 @@ if (electronIsDev) {
   setupContentSecurityPolicy(myCapacitorApp.getCustomURLScheme());
   // Initialize our app, build windows, and load content.
   await myCapacitorApp.init();
+  // Remove the application menu
+  Menu.setApplicationMenu(null);
   // Check for updates if we are in a packaged app.
   autoUpdater.checkForUpdatesAndNotify();
 })();
