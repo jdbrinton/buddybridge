@@ -11,8 +11,8 @@
 	<h1>
 		<span class="welcome">
 			<picture>
-				<source srcset="/buddybridge_logo.png" type="image/webp" />
-				<img src="/buddybridge_logo.png" alt="Welcome" />
+				<source srcset="buddybridge_logo.png" type="image/webp" />
+				<img src="buddybridge_logo.png" alt="Welcome" />
 			</picture>
 		</span>
 
