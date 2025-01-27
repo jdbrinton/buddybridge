@@ -1,42 +1,60 @@
-# sv
+# BuddyBridge
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Find your friends on other social media platforms!
 
-## Creating a project
+## Getting Started
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+First, install all the dependences with:
 
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+npm install
 ```
 
 ## Building
 
-To create a production version of your app:
+### Build for Web (Limited Functionality)
+
+BuddyBridge needs to run natively to be able get around browser same-origin policy (SOP) restrictions. You can build the app for web, but the app cannot connect to your social media accounts. So, the app for web simply becomes the apps public information page. To create a production version of your app in the `docs` folder:
 
 ```bash
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+### Build for Mobile
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+BuddyBridge uses CapacitorJS to build for mobile (android and iOS).
 
+[TODO]
+
+### Build for Desktop
+
+BuddyBridge uses ElectronJS to build for desktop (linux, windows, mac)
+
+[TODO]
+
+## Debugging
+
+### Debug on Desktop (Full Functionality)
+
+To debug in Electron, in one terminal run:
+
+```bash
+npm run build:watch
+```
+
+in another terminal:
+
+```bash
+npx cap open electron
+```
+
+### Debug in Browser (Limited Functionality)
+
+To debug in your web browser run:
+
+```bash
+npm run dev -- --open
+```
 
 ## Favicon
 
@@ -55,4 +73,12 @@ This favicon was generated using the following font:
 - Font Family: Wendy One
 - Font Variant: Regular 400 Normal
 - Font Size: 90
+
+# TODO
+
+"Go!" button on home page is relative, not absolute like top nav. Maybe this doesn't matter.
+
+Electron doesn't seem to ever close which leads to system memory loss
+
+
 
