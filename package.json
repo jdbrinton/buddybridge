@@ -1,11 +1,12 @@
 {
 	"name": "buddybridge",
-	"private": true,
-	"version": "0.0.1",
+	"private": false,
+	"version": "1.0.0",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
+		"build:watch": "cross-env SVELTE_OUTPUT_DIR=electron/app vite build --watch",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
@@ -23,6 +24,7 @@
 		"@tailwindcss/forms": "^0.5.10",
 		"@tailwindcss/typography": "^0.5.16",
 		"autoprefixer": "^10.4.20",
+		"cross-env": "^7.0.3",
 		"electron": "^34.0.1",
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.3",

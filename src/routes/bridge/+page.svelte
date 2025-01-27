@@ -1,28 +1,22 @@
 <script>
 	import { onMount } from 'svelte';
 	import { Capacitor } from '@capacitor/core';
-	import { Browser } from '@capacitor/browser';
 
 	let platformResult = 'Detecting platform...';
 	let scrapingCapability = 'Checking scraping capability...';
+	let facebookEmailOrPhone = '';
+	let facebookPassword = '';
+	let blueskyUsernameOrEmail = '';
+	let blueskyPassword = '';
 
 	onMount(async () => {
-		// Detect Platform
 		const platform = Capacitor.getPlatform();
-
 		if (platform === 'web') {
 			platformResult = 'Running on the Web (Browser or PWA).';
 			scrapingCapability = 'WebView scraping may have restrictions due to CORS.';
 		} else if (platform === 'ios' || platform === 'android') {
 			platformResult = `Running on native ${platform} WebView.`;
-
-			// Check WebView access and scraping capability
-			try {
-				await Browser.open({ url: 'https://example.com' });
-				scrapingCapability = 'WebView access confirmed. Scraping should be possible.';
-			} catch (error) {
-				scrapingCapability = 'WebView access restricted.';
-			}
+			scrapingCapability = 'WebView scraping should be possible.';
 		} else if (platform === 'electron') {
 			platformResult = 'Running on Electron.';
 			scrapingCapability = 'Unrestricted Chromium access. Scraping is fully supported.';
@@ -33,35 +27,42 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Platform Check</title>
-	<meta name="description" content="Platform and scraping capability check" />
-</svelte:head>
-
-<div class="text-column">
-	<h1>Platform and Scraping Capability Check</h1>
-
-	<p><strong>Platform:</strong> {platformResult}</p>
-	<p><strong>Scraping Capability:</strong> {scrapingCapability}</p>
-
-	<p>
-		This page dynamically detects whether you're running on a browser, a native WebView, or an
-		Electron environment, and evaluates whether scraping capabilities are available.
-	</p>
+<div class="mx-auto mt-6 max-w-md space-y-4 rounded bg-white p-4 shadow">
+	<div class="space-y-2">
+		<label class="block font-medium"
+			>Facebook Email or phone number
+			<input
+				type="text"
+				bind:value={facebookEmailOrPhone}
+				class="mt-1 block w-full rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+			/>
+		</label>
+		<label class="block font-medium"
+			>Facebook Password
+			<input
+				type="password"
+				bind:value={facebookPassword}
+				class="mt-1 block w-full rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+			/>
+		</label>
+	</div>
+	<div class="space-y-2">
+		<label class="block font-medium"
+			>Bluesky Username or email address
+			<input
+				type="text"
+				bind:value={blueskyUsernameOrEmail}
+				class="mt-1 block w-full rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+			/>
+		</label>
+		<label class="block font-medium"
+			>Bluesky Password
+			<input
+				type="password"
+				bind:value={blueskyPassword}
+				class="mt-1 block w-full rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+			/>
+		</label>
+	</div>
+	<button class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">Next</button>
 </div>
-
-<style>
-	.text-column {
-		padding: 1em;
-		max-width: 600px;
-		margin: 0 auto;
-		font-family: Arial, sans-serif;
-	}
-	h1 {
-		color: #333;
-	}
-	p {
-		line-height: 1.6;
-		color: #555;
-	}
-</style>

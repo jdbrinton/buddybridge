@@ -1,17 +1,17 @@
 {
   "name": "buddybridge",
   "version": "1.0.0",
-  "description": "Find your friends on other social media platforms!",
+  "description": "An Amazing Capacitor App",
   "author": {
-    "name": "JD Brinton",
-    "email": "buddybridge@jdbrinton.com"
+    "name": "",
+    "email": ""
   },
   "repository": {
     "type": "git",
-    "url": "https://buddybridge.net"
+    "url": ""
   },
   "license": "MIT",
-  "main": "build/index.js",
+  "main": "build/src/index.js",
   "scripts": {
     "build": "tsc && electron-rebuild",
     "electron:start-live": "node ./live-runner.js",
@@ -29,29 +29,13 @@
     "electron-window-state": "^5.0.3"
   },
   "devDependencies": {
-    "7zip-bin": "^5.2.0",
     "electron": "^26.2.2",
-    "electron-builder": "^25.1.8",
+    "electron-builder": "~23.6.0",
     "electron-rebuild": "^3.2.9",
-    "typescript": "^5.7.3"
+    "typescript": "^5.0.4"
   },
   "keywords": [
-    "facebook",
-    "instagram",
-    "twitter",
-    "linkedin",
-    "youtube",
-    "snapchat",
-    "reddit",
-    "tiktok",
-    "bluesky",
-    "mastodon",
-    "x",
-    "friends",
-    "find",
-    "social",
-    "media",
-    "platforms",
-    "bridge"
+    "capacitor",
+    "electron"
   ]
 }

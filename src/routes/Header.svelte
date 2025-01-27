@@ -1,20 +1,15 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { browser } from '$app/environment';
+	import liInBug from '$lib/images/LI-In-Bug.png';
 	import github from '$lib/images/github.svg';
-
-	let BASE_URL = '/';
-	if (browser && typeof window !== 'undefined' && typeof window.BASE_URL === 'string') {
-		BASE_URL = window.BASE_URL;
-	}
 
 	/**
 	 * Navigate to a specified path.
 	 * @param {string} path - The path to navigate to.
 	 */
 	function navigate(path) {
-		goto(`${BASE_URL}${path}`);
+		goto(path);
 	}
 
 	/**
@@ -30,11 +25,10 @@
 	}
 </script>
 
-
 <header>
 	<div class="corner">
 		<a href="https://www.linkedin.com/in/joeldbrinton/" target="_blank">
-			<img src="LI-In-Bug.png" alt="JD Brinton" />
+			<img src={liInBug} alt="JD Brinton" />
 		</a>
 	</div>
 
@@ -43,14 +37,46 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li aria-current={$page.url.pathname === BASE_URL ? 'page' : undefined}>
-				<a href="." on:click={(e) => { e.preventDefault(); navigate(''); }} on:keydown={(e) => handleKey(e, '')}>Home</a>
+			<!-- HOME -->
+			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
+				<a
+					href="."
+					on:click={(e) => {
+						e.preventDefault();
+						navigate('/');
+					}}
+					on:keydown={(e) => handleKey(e, '/')}
+				>
+					Home
+				</a>
 			</li>
+
+			<!-- INSTRUCTIONS -->
 			<li aria-current={$page.url.pathname.endsWith('/instructions') ? 'page' : undefined}>
-				<a href="." on:click={(e) => { e.preventDefault(); navigate('instructions'); }} on:keydown={(e) => handleKey(e, 'instructions')}>Instructions</a>
+				<a
+					href="."
+					on:click={(e) => {
+						e.preventDefault();
+						navigate('/instructions');
+					}}
+					on:keydown={(e) => handleKey(e, '/instructions')}
+				>
+					Instructions
+				</a>
 			</li>
+
+			<!-- BRIDGE -->
 			<li aria-current={$page.url.pathname.endsWith('/bridge') ? 'page' : undefined}>
-				<a href="." on:click={(e) => { e.preventDefault(); navigate('bridge'); }} on:keydown={(e) => handleKey(e, 'bridge')}>Begin!</a>
+				<a
+					href="."
+					on:click={(e) => {
+						e.preventDefault();
+						navigate('/bridge');
+					}}
+					on:keydown={(e) => handleKey(e, '/bridge')}
+				>
+					Begin!
+				</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">

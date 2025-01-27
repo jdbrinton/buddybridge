@@ -47,3 +47,6 @@ npm-debug.log*
 .vscode/
 .idea/
 *.iml
+
+# file used for AI prompt generation
+ai.txt

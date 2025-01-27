@@ -6,3 +6,6 @@ node_modules
 build
 dist
 logs
+
+# file used for AI prompt generation
+ai.txt

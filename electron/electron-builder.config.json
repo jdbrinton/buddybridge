@@ -30,6 +30,6 @@
   },
   "linux": {
     "target": "AppImage",
-    "icon": "assets/android-chrome-512x512.png"
+    "icon": "assets/linux-512x512.png"
   }
 }

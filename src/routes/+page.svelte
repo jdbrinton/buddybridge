@@ -1,11 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { browser } from '$app/environment';
-
-	let BASE_URL = '/';
-	if (browser && typeof window !== 'undefined' && typeof window.BASE_URL === 'string') {
-		BASE_URL = window.BASE_URL;
-	}
+	import buddybridgeLogo from '$lib/images/buddybridge_logo.png';
 </script>
 
 <svelte:head>
@@ -17,15 +12,16 @@
 	<h1>
 		<span class="welcome">
 			<picture>
-				<source srcset="buddybridge_logo.png" type="image/webp" />
-				<img src="buddybridge_logo.png" alt="Welcome" />
+				<!-- We only have a PNG, but keeping the <picture> structure is fine -->
+				<source srcset={buddybridgeLogo} type="image/webp" />
+				<img src={buddybridgeLogo} alt="Welcome" />
 			</picture>
 		</span>
 		Find your friends on other social media platforms!
 	</h1>
 	<button
 		class="transform rounded-lg bg-blue-500 px-4 py-2 font-bold text-white shadow-lg transition-transform duration-300 hover:scale-105 hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
-		onclick={() => goto(`${BASE_URL}bridge`)}
+		on:click={() => goto('bridge')}
 	>
 		Begin!
 	</button>

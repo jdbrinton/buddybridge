@@ -1,22 +1,21 @@
 import adapter from '@sveltejs/adapter-static';
 
+// Check for a custom output directory via an environment variable
+const outputDir = process.env.SVELTE_OUTPUT_DIR || 'docs';
+
 export default {
 	kit: {
-	  // Specify the static adapter
-	  adapter: adapter({
-		pages: 'docs',
-		assets: 'docs',
-		fallback: null,
-	  }),
-  
-	  // Optional: Add paths or fallback options if needed
-	  paths: {
-		// Change base path if deploying to a subdirectory
-		base: '',
-	  },
-	  prerender: {
-		entries: ['*'], // Prerender all routes by default
-	  },
-	},
-  };
-
+		adapter: adapter({
+			pages: outputDir,
+			assets: outputDir,
+			fallback: null
+		}),
+		paths: {
+			// Enable purely relative paths:
+			relative: true
+		},
+		prerender: {
+			entries: ['*']
+		}
+	}
+};

@@ -4,14 +4,6 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<script>
-			const pathParts = location.pathname.split('/');
-			const isFile = pathParts[pathParts.length - 1].includes('.');
-			const basePath = isFile
-				? pathParts.slice(0, -1).join('/') // Remove trailing file like index.html
-				: location.pathname; // Use full pathname if no file is present
-			window.BASE_URL = basePath.endsWith('/') ? basePath : basePath + '/';
-		</script>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">
