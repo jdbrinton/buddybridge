@@ -50,3 +50,7 @@ npm-debug.log*
 
 # file used for AI prompt generation
 ai.txt
+
+# personal files
+scratch
+
