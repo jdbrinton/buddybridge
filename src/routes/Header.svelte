@@ -1,28 +1,7 @@
 <script>
-	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import liInBug from '$lib/images/LI-In-Bug.png';
 	import github from '$lib/images/github.svg';
-
-	/**
-	 * Navigate to a specified path.
-	 * @param {string} path - The path to navigate to.
-	 */
-	function navigate(path) {
-		goto(path);
-	}
-
-	/**
-	 * Handle key events for navigation.
-	 * @param {KeyboardEvent} event - The keyboard event.
-	 * @param {string} path - The path to navigate to.
-	 */
-	function handleKey(event, path) {
-		if (event.key === 'Enter' || event.key === ' ') {
-			event.preventDefault();
-			navigate(path);
-		}
-	}
 </script>
 
 <header>
@@ -39,44 +18,17 @@
 		<ul>
 			<!-- HOME -->
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a
-					href="."
-					on:click={(e) => {
-						e.preventDefault();
-						navigate('/');
-					}}
-					on:keydown={(e) => handleKey(e, '/')}
-				>
-					Home
-				</a>
+				<a href="/">Home</a>
 			</li>
 
 			<!-- INSTRUCTIONS -->
 			<li aria-current={$page.url.pathname.endsWith('/instructions') ? 'page' : undefined}>
-				<a
-					href="."
-					on:click={(e) => {
-						e.preventDefault();
-						navigate('/instructions');
-					}}
-					on:keydown={(e) => handleKey(e, '/instructions')}
-				>
-					Instructions
-				</a>
+				<a href="/instructions">Instructions</a>
 			</li>
 
 			<!-- BRIDGE -->
 			<li aria-current={$page.url.pathname.endsWith('/bridge') ? 'page' : undefined}>
-				<a
-					href="."
-					on:click={(e) => {
-						e.preventDefault();
-						navigate('/bridge');
-					}}
-					on:keydown={(e) => handleKey(e, '/bridge')}
-				>
-					Begin!
-				</a>
+				<a href="/bridge">Begin!</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">

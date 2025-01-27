@@ -30,8 +30,12 @@
 	async function scrapeFacebook() {
 		if (Capacitor.getPlatform() === 'electron') {
 			try {
-				facebookDomResult =
-					await window.CapacitorCustomPlatform.plugins.FacebookScraper.scrapeDom();
+				if (window.CapacitorCustomPlatform) {
+					facebookDomResult =
+						await window.CapacitorCustomPlatform.plugins.FacebookScraper.scrapeDom();
+				} else {
+					facebookDomResult = 'Error: CapacitorCustomPlatform is not defined.';
+				}
 			} catch (err) {
 				facebookDomResult = 'Error: ' + (err instanceof Error ? err.message : String(err));
 			}
